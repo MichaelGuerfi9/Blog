@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Yet Another Blog..</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+            integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+            integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('bundles/blog/style.css') }}">
+</head>
+
+<body>
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="{{ path('home') }}">Yet Another Blog</a>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto right">
+            <li class="nav-item">
+                <div class="dropdown    ">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="false" aria-expanded="false">
+                        Categories
+                    </a>
+
+                    {% if categories is defined %}
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            {% for categorie in categories %}
+                                <a class="dropdown-item"
+                                   href="{{ path('get_by_category', {slug: categorie.slug}) }}">{{ categorie.name }}</a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </li>
+        </ul>
+        {% if is_granted('ROLE_ADMIN') %}
+            <span class="right">
+                <a class="nav-link" id="dropdownMenuLink" href="{{ path('sonata_admin_dashboard') }}">Admin</a>
+            </span>
+            <span class="right">
+                <a class="nav-link" id="dropdownMenuLink" href="{{ path('fos_user_security_logout') }}">Log out</a>
+            </span>
+        {% elseif is_granted('ROLE_USER') %}
+            <span class="right">
+                <a class="nav-link" id="dropdownMenuLink" href="{{ path('fos_user_security_logout') }}">Log out</a>
+            </span>
+        {% else %}
+            <span class="right">
+                <a class="nav-link" id="dropdownMenuLink" href="{{ path('fos_user_registration_register') }}">Register</a>
+            </span>
+            <span class="right">
+                <a class="nav-link" id="dropdownMenuLink" href="{{ path('fos_user_security_login') }}">Log in</a>
+            </span>
+        {% endif %}
+    </div>
+</nav>
+
+{% block content %}{% endblock %}
+
+<footer></footer>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{% extends 'SonataAdminBundle::standard_layout.html.twig' %}
+
+{% block side_bar_after_nav %}
+{% endblock %}
+
+{% block logo %}
+    <a href="{{ url('sonata_admin_dashboard') }}" class="logo">
+        <span>Espace Admin</span>
+    </a>
+{% endblock %}
+
+{% block sonata_top_nav_menu_add_block %}
+    <li>
+        <a href="{{ path('home') }}">
+            Retourner sur le blog
+        </a>
+    </li>
+    {{ parent() }}
+{% endblock %}
